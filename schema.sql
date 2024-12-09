@@ -29,7 +29,7 @@ CREATE TABLE
         -- publish their music on behalf of them instead.
         `last_name` VARCHAR(64) NOT NULL,
         `middle_initial` VARCHAR(1), -- Not every name has a middle initial
-        `first_name` VARCHAR(64) NOT NULL
+        `first_name` VARCHAR(64) NOT NULL,
         FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`)
     );
 
@@ -38,7 +38,7 @@ CREATE TABLE
     `companies` (
         `company_id` INT PRIMARY KEY UNSIGNED AUTOINCREMENT,
         `account_id` INT UNSIGNED NOT NULL, -- Companies must sign up for an account.
-        `name` VARCHAR(64) NOT NULL UNIQUE
+        `name` VARCHAR(64) NOT NULL UNIQUE,
         FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`)
     );
 
@@ -88,7 +88,7 @@ CREATE TABLE
         FOREIGN KEY `series_id` REFERENCES `series` (`series_id`)
     );
 
--- Represents VGM.
+-- Represents video game music (VGM).
 CREATE TABLE
     `music` (
         `music_id` INT PRIMARY KEY UNSIGNED AUTOINCREMENT,
