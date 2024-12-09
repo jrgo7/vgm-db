@@ -53,41 +53,45 @@ ORDER BY
 LIMIT
     20;
 
--- Filter by game: TODO
+-- Filter by game
 SELECT
     `title`
 FROM
     `music`
+    JOIN `appearances` ON `music`.`music_id` = `appearances`.`music_id`
+    JOIN `games` ON `appearances`.`game_id` = `games`.`game_id`
+WHERE
+    `games`.`name` LIKE "%Game Title%"
 ORDER BY
     `title`
 LIMIT
     20;
 
--- Filter by game series: TODO
+-- Filter by game series
 SELECT
     `title`
 FROM
     `music`
+    JOIN `appearances` ON `music`.`music_id` = `appearances`.`music_id`
+    JOIN `games_series` ON `appearances`.`game_id` = `games_series`.`game_id`
+    JOIN `series` ON `games_series`.`series_id` = `series`.`series_id`
+WHERE
+    `series`.`name` LIKE "%Series Title%"
 ORDER BY
     `title`
 LIMIT
     20;
 
--- Filter by console: TODO
+-- Filter by console
 SELECT
     `title`
 FROM
     `music`
-ORDER BY
-    `title`
-LIMIT
-    20;
-
--- Filter by everything but game: TODO
-SELECT
-    `title`
-FROM
-    `music`
+    JOIN `appearances` ON `music`.`music_id` = `appearances`.`music_id`
+    JOIN `games_consoles` ON `appearances`.`game_id` = `games_consoles`.`game_id`
+    JOIN `consoles` ON `games_consoles`.`console_id` = `consoles`.`console_id`
+WHERE
+    "%Console Name%" LIKE `consoles`.`name`
 ORDER BY
     `title`
 LIMIT
@@ -129,7 +133,7 @@ VALUES
             "Koshiro",
             "Yuzo"
     );
-    
+
 COMMIT;
 
 -- Company sign-up
