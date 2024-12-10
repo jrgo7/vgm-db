@@ -50,7 +50,7 @@ Based on [the erratum for RFC 3696,](https://stackoverflow.com/questions/386294/
 
 ### Relationships
 
-(TODO: ERD)
+![EER Diagram](EER.png)
 
 The `games_consoles` tables manages the many-to-many association of video games to consoles. One example of a game released for multiple platforms is Minecraft, which has been released for PC, mobile phones, and various consoles.
 

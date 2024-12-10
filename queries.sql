@@ -162,8 +162,126 @@ VALUES
 
 COMMIT;
 
--- III. Games, series, and consoles management
+-- III. Games management
 -- Adding
+START TRANSACTION;
+
+INSERT INTO
+    `games` (`company_id`, `name`)
+VALUES
+    (1, "The Great Miasma");
+
+COMMIT;
+
 -- Editing
+START TRANSACTION;
+
+UPDATE `games`
+SET
+    `name` = "The Greatest Miasma"
+WHERE
+    `name` = "The Great Miasma";
+
+COMMIT;
+
 -- Removing
--- IV. Music management
+START TRANSACTION;
+
+DELETE FROM `games`
+WHERE
+    `name` = "The Greatest Miasma";
+
+COMMIT;
+
+-- IV. Series management
+-- Adding
+START TRANSACTION;
+
+INSERT INTO
+    `series` (`company_id`, `name`)
+VALUES
+    (1, "Miasma");
+
+COMMIT;
+
+-- Editing
+START TRANSACTION;
+
+UPDATE `series`
+SET
+    `name` = "The Miasmas"
+WHERE
+    `name` = "Miasma";
+
+COMMIT;
+
+-- Removing
+START TRANSACTION;
+
+DELETE FROM `series`
+WHERE
+    `name` = "The Miasmas";
+
+COMMIT;
+
+-- V. Consoles management
+-- Adding
+START TRANSACTION;
+
+INSERT INTO
+    `consoles` (`company_id`, `name`)
+VALUES
+    (1, "Super Moontendo");
+
+COMMIT;
+
+-- Editing
+START TRANSACTION;
+
+UPDATE `consoles`
+SET
+    `name` = "Super Moontendo Entertainment System"
+WHERE
+    `name` = "Super Moontendo";
+
+COMMIT;
+
+-- Removing
+START TRANSACTION;
+
+DELETE FROM `consoles`
+WHERE
+    `name` = "Super Moontendo Entertainment System";
+
+COMMIT;
+
+-- VI. Music management
+-- Adding
+START TRANSACTION;
+
+INSERT INTO
+    `music` (`title`, `path`)
+VALUES
+    ("Intro Stage", "mmx/snes/intro-stage.mp3");
+
+COMMIT;
+
+-- Editing
+START TRANSACTION;
+
+UPDATE `music`
+SET
+    `name` = "Intro Stage (SNES)"
+WHERE
+    `music_id` = 1;
+
+COMMIT;
+
+-- Removing
+START TRANSACTION;
+
+DELETE FROM `music`
+WHERE
+    `music_id` = 1;
+
+COMMIT;
