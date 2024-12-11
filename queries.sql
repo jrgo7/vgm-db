@@ -285,3 +285,19 @@ WHERE
     `music_id` = 1;
 
 COMMIT;
+
+-- VII. Playlists management
+-- Creating a playlist and adding music
+START TRANSACTION;
+
+INSERT INTO
+    `playlists` (`account_id`, `name`)
+VALUES
+    (1, "Best of Miasma");
+
+INSERT INTO
+    `playlist_entries` (`playlist_id`, `music_id`)
+VALUES
+    (1, 1);
+
+COMMIT;

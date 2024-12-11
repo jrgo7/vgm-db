@@ -2,7 +2,9 @@
 -- the CREATE TABLE, CREATE INDEX, CREATE VIEW, etc. statements that compose it
 -- Represents all accounts in the system.
 DROP DATABASE IF EXISTS `vgm_db`;
+
 CREATE DATABASE `vgm_db`;
+
 USE `vgm_db`;
 
 CREATE TABLE
@@ -19,7 +21,7 @@ CREATE TABLE
 -- have an entry, so they're separate from the `accounts` table.
 CREATE TABLE
     `bio` (
-        `account_id` INT UNSIGNED PRIMARY KEY,
+        `account_id` INT UNSIGNED UNIQUE NOT NULL,
         `bio` VARCHAR(2048) NOT NULL,
         FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`)
     );
@@ -28,7 +30,7 @@ CREATE TABLE
 CREATE TABLE
     `composers` (
         `composer_id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `account_id` INT UNSIGNED,
+        `account_id` INT UNSIGNED UNIQUE,
         -- Composers may or may not sign up for an account; companies could
         -- publish their music on behalf of them instead.
         `last_name` VARCHAR(64) NOT NULL,
@@ -41,7 +43,7 @@ CREATE TABLE
 CREATE TABLE
     `companies` (
         `company_id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        `account_id` INT UNSIGNED NOT NULL, -- Companies must sign up for an account.
+        `account_id` INT UNSIGNED UNIQUE NOT NULL, -- Companies must sign up for an account.
         `name` VARCHAR(64) NOT NULL UNIQUE,
         FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`)
     );
@@ -79,7 +81,7 @@ CREATE TABLE
     `games_series` (
         `game_id` INT UNSIGNED,
         `series_id` INT UNSIGNED,
-        PRIMARY KEY(`game_id`, `series_id`),
+        PRIMARY KEY (`game_id`, `series_id`),
         FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`),
         FOREIGN KEY (`series_id`) REFERENCES `series` (`series_id`)
     );
@@ -90,7 +92,7 @@ CREATE TABLE
     `games_consoles` (
         `game_id` INT UNSIGNED,
         `console_id` INT UNSIGNED,
-		PRIMARY KEY(`game_id`, `console_id`),
+        PRIMARY KEY (`game_id`, `console_id`),
         FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`),
         FOREIGN KEY (`console_id`) REFERENCES `consoles` (`console_id`)
     );
@@ -125,8 +127,35 @@ CREATE TABLE
         `game_id` INT UNSIGNED NOT NULL,
         PRIMARY KEY (`music_id`, `game_id`),
         FOREIGN KEY (`music_id`) REFERENCES `music` (`music_id`),
-        FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`)		
-    );		
+        FOREIGN KEY (`game_id`) REFERENCES `games` (`game_id`)
+    );
 
--- Anticipating that people would search by title
+-- Playlists are arbitrary collections of music curated by a user.
+CREATE TABLE
+    `playlists` (
+        `playlist_id` INT UNSIGNED NOT NULL,
+        `account_id` INT UNSIGNED NOT NULL,
+        `name` VARCHAR(64) NOT NULL,
+        PRIMARY KEY (`playlist_id`),
+        FOREIGN KEY (`account_id`) REFERENCES `accounts` (`account_id`)
+    );
+
+-- A playlist can have multiple entries.
+CREATE TABLE
+    `playlist_entries` (
+        `playlist_id` INT UNSIGNED NOT NULL,
+        `music_id` INT UNSIGNED NOT NULL,
+        PRIMARY KEY (`playlist_id`, `music_id`),
+        FOREIGN KEY (`playlist_id`) REFERENCES `playlists` (`playlist_id`),
+        FOREIGN KEY (`music_id`) REFERENCES `music` (`music_id`)
+    );
+
 CREATE INDEX `music_title` ON `music` (`title`);
+
+CREATE INDEX `companies_name` ON `companies` (`name`);
+
+CREATE INDEX `consoles_name` ON `consoles` (`name`);
+
+CREATE INDEX `games_name` ON `games` (`name`);
+
+CREATE INDEX `composer_name` ON `composers` (`last_name`, `first_name`);
